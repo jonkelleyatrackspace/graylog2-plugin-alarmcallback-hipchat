@@ -39,18 +39,22 @@ public class HipChatTrigger {
 
     private final String apiToken;
     private final String room;
+    private final String endpoint;
+    private final String API_URL = endpoint;
     private final int SUCCESS_RESPONSE_CODE = 200;
-    private final String API_URL = "https://api.hipchat.com/v1/rooms/message";
 
-    public HipChatTrigger(String apiToken, String room) {
+
+    public HipChatTrigger(String apiToken, String room, String endpoint) {
         this.apiToken = apiToken;
         this.room = room;
+        this.endpoint = endpoint;
     }
 
     public void trigger(Alarm alarm) throws AlarmCallbackException {
         Writer writer = null;
         try {
-          URL url = new URL("https://api.hipchat.com/v1/rooms/message?auth_token=" + this.apiToken);
+          #URL url = new URL("https://api.hipchat.com/v1/rooms/message?auth_token=" + this.apiToken);
+          URL url = new URL(this.endpoint + "graylogalarm?auth_token=" + this.apiToken);
           HttpURLConnection conn = (HttpURLConnection)url.openConnection();
           conn.setDoOutput(true);
           conn.setRequestMethod("POST");

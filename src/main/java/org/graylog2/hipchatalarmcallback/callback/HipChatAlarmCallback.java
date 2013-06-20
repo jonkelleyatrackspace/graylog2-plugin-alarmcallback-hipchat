@@ -32,7 +32,7 @@ import org.graylog2.plugin.alarms.callbacks.AlarmCallbackException;
  */
 public class HipChatAlarmCallback implements AlarmCallback {
     
-    public static final String NAME = "HipChat alarm callback";
+    public static final String NAME = "JonsAlarm";
     
     private String apiToken;
     private String room;
@@ -46,12 +46,13 @@ public class HipChatAlarmCallback implements AlarmCallback {
           throw new AlarmCallbackConfigurationException("Required config parameter room is missing.");
         }
 
+        this.endpoint = ((String)config.get("endpoint"));
         this.apiToken = ((String)config.get("api_token"));
         this.room = ((String)config.get("room"));
     }
 
     public void call(Alarm alarm) throws AlarmCallbackException {
-        HipChatTrigger trigger = new HipChatTrigger(this.apiToken, this.room);
+        HipChatTrigger trigger = new HipChatTrigger(this.apiToken, this.room, this.endpoint);
         trigger.trigger(alarm);
     }
 
